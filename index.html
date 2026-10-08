@@ -9,6 +9,9 @@
   <!-- FontAwesome 아이콘 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase 공식 JS SDK v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="font-size-md">
   <!-- 상단 네비게이션 헤더 -->
@@ -22,14 +25,22 @@
         </div>
       </div>
 
-      <!-- 접근성 컨트롤 (글자 크기 & 음성 가이드) -->
+      <!-- 접근성 컨트롤 및 DB 상태 버튼 -->
       <div class="accessibility-controls">
+        <!-- 수파베이스 DB 상태 & 설정 버튼 -->
+        <button id="btnOpenDbModal" class="btn-ctrl btn-db-status" title="클라우드 DB (Supabase) 설정">
+          <i class="fa-solid fa-database"></i> <span id="dbStatusBadge">로컬 모드</span>
+        </button>
+
+        <!-- 글자 크기 조절 -->
         <div class="font-resizer" title="글자 크기 조절">
-          <span class="ctrl-label">글자크기:</span>
+          <span class="ctrl-label">글자:</span>
           <button id="btnFontSm" class="btn-ctrl" aria-label="기본 글자">보통</button>
           <button id="btnFontMd" class="btn-ctrl active" aria-label="큰 글자">크게</button>
           <button id="btnFontLg" class="btn-ctrl" aria-label="아주 큰 글자">아주크게</button>
         </div>
+
+        <!-- 음성 가이드 토글 -->
         <div class="tts-toggle" title="음성 안내 켜기/끄기">
           <button id="btnTtsToggle" class="btn-ctrl btn-tts active">
             <i class="fa-solid fa-volume-high"></i> <span id="ttsStatusText">음성 켜짐</span>
@@ -268,6 +279,55 @@
     </section>
   </main>
 
+  <!-- 수파베이스(Supabase) 데이터베이스 설정 모달 -->
+  <div id="dbModal" class="modal-backdrop hidden">
+    <div class="modal-dialog db-modal-dialog">
+      <button id="btnCloseDbModal" class="btn-close-modal" aria-label="닫기">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-content">
+        <div class="db-modal-header">
+          <div class="db-icon"><i class="fa-solid fa-database"></i></div>
+          <h2>Supabase 데이터베이스 연동</h2>
+          <p>클라우드 DB를 연결하면 다른 기기에서도 운동 기록과 출석 현황이 안전하게 보존됩니다.</p>
+        </div>
+
+        <form id="dbConfigForm" class="db-form">
+          <div class="form-group">
+            <label for="sbUrlInput">Project URL (프로젝트 주소)</label>
+            <input type="url" id="sbUrlInput" placeholder="https://your-project.supabase.co" required>
+            <small>Supabase 대시보드 -> Project Settings -> API 에서 확인 가능</small>
+          </div>
+
+          <div class="form-group">
+            <label for="sbKeyInput">anon (public) Key</label>
+            <input type="password" id="sbKeyInput" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." required>
+            <small>공개 가능한 anon public API 키를 입력해 주세요.</small>
+          </div>
+
+          <div id="dbTestMessage" class="db-test-msg hidden"></div>
+
+          <div class="db-modal-actions">
+            <button type="button" id="btnTestDb" class="btn-secondary">
+              <i class="fa-solid fa-bolt"></i> 연결 테스트
+            </button>
+            <button type="submit" id="btnSaveDb" class="btn-primary-large">
+              <i class="fa-solid fa-check"></i> 저장 및 동기화
+            </button>
+          </div>
+        </form>
+
+        <div class="db-modal-footer">
+          <p>💡 아직 테이블을 만들지 않으셨나요? 프로젝트의 <code>supabase_setup.sql</code> 파일을 Supabase SQL Editor에 복사하여 실행하시면 즉시 준비됩니다.</p>
+          <button type="button" id="btnClearDb" class="btn-link-danger">
+            <i class="fa-solid fa-arrow-rotate-left"></i> 로컬 저장소 모드로 전환하기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 유튜브 영상 모달 (팝업 플레이어) -->
   <div id="youtubeModal" class="modal-backdrop hidden">
     <div class="modal-dialog youtube-dialog">
@@ -388,8 +448,8 @@
             <strong id="completedTimeText">2분 30초</strong>
           </div>
           <div class="summary-item">
-            <span>기록 현황</span>
-            <strong class="text-green">달력에 자동 기록됨</strong>
+            <span>기록 저장 위치</span>
+            <strong class="text-green" id="dbSaveLocationText">클라우드 DB 동기화됨</strong>
           </div>
         </div>
         <p class="celebration-encourage">"꾸준한 실천이 튼튼한 관절과 균형 감각을 만듭니다."</p>
@@ -406,6 +466,8 @@
     <p>심한 관절염이나 어지럼증이 있으신 경우 전문의 상담 후 운동하시기 바랍니다.</p>
   </footer>
 
+  <!-- 스크립트 로드: Supabase 서비스 모듈 -> 앱 메인 로직 -->
+  <script src="supabase.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

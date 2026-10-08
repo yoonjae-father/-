@@ -2,6 +2,7 @@
  * 든든한 걸음 - 어르신 낙상예방 운동 가이드
  * 카테고리: 상지 부분, 하지 부분, 전신운동 부분
  * 각 항목별 유튜브 영상 연동, 인터랙티브 타이머, 음성 안내(TTS), 자가진단, 출석 달력
+ * + 수파베이스(Supabase) 클라우드 데이터베이스 연동 및 로컬스토리지 백업
  */
 
 // =============================================================================
@@ -24,7 +25,7 @@ const EXERCISE_LIST = [
       "숨을 들이마시며 팔꿈치를 굽혀 가슴이 벽에 가까워지게 내려갑니다.",
       "숨을 내쉬며 손바닥으로 벽을 밀어 제자리로 돌아옵니다. (30초간 반복)"
     ],
-    youtubeId: "sXh0_dYFwKw", // 벽 팔굽혀펴기 / 상체 근력
+    youtubeId: "sXh0_dYFwKw",
     youtubeUrl: "https://www.youtube.com/watch?v=sXh0_dYFwKw",
     svg: getSvgIllustration("wall_pushup")
   },
@@ -43,7 +44,7 @@ const EXERCISE_LIST = [
       "숨을 내쉬며 등 뒤 날개뼈를 가운데로 꽉 조이듯 팔을 뒤로 당깁니다.",
       "3초간 유지한 뒤 천천히 긴장을 풀고 이를 반복합니다."
     ],
-    youtubeId: "2jXU9jZ0y9w", // 의자 상체 스트레칭
+    youtubeId: "2jXU9jZ0y9w",
     youtubeUrl: "https://www.youtube.com/watch?v=2jXU9jZ0y9w",
     svg: getSvgIllustration("chest_open")
   },
@@ -62,7 +63,7 @@ const EXERCISE_LIST = [
       "숨을 내쉬며 어깨를 뒤쪽으로 큰 원을 그리듯 돌려 내립니다.",
       "앞에서 뒤로 5회, 뒤에서 앞으로 5회 부드럽게 반복합니다."
     ],
-    youtubeId: "Gz1Rz8J4x28", // 어깨 관절 가동성
+    youtubeId: "Gz1Rz8J4x28",
     youtubeUrl: "https://www.youtube.com/watch?v=Gz1Rz8J4x28",
     svg: getSvgIllustration("shoulder_roll")
   },
@@ -81,7 +82,7 @@ const EXERCISE_LIST = [
       "이를 5회 반복한 뒤, 양 손목을 안쪽과 바깥쪽으로 부드럽게 돌립니다.",
       "손끝까지 혈액순환이 돌고 손아귀 힘이 생깁니다."
     ],
-    youtubeId: "w7n3e_6B-r4", // 시니어 손목 악력 운동
+    youtubeId: "w7n3e_6B-r4",
     youtubeUrl: "https://www.youtube.com/watch?v=w7n3e_6B-r4",
     svg: getSvgIllustration("wrist_grip")
   },
@@ -102,7 +103,7 @@ const EXERCISE_LIST = [
       "가장 높은 지점에서 2초간 버팁니다.",
       "뒤꿈치가 쿵 떨어지지 않도록 천천히 바닥에 내려놓습니다."
     ],
-    youtubeId: "kYJ9g1V-L4g", // 국민건강보험공단 낙상예방 하체운동
+    youtubeId: "kYJ9g1V-L4g",
     youtubeUrl: "https://www.youtube.com/watch?v=kYJ9g1V-L4g",
     svg: getSvgIllustration("calf_raise")
   },
@@ -121,7 +122,7 @@ const EXERCISE_LIST = [
       "엉덩이를 뒤로 빼며 천천히 의자에 닿기 직전까지 앉습니다.",
       "발바닥 전체로 지면을 지긋이 밀며 힘차게 일어섭니다."
     ],
-    youtubeId: "f3_J3b9iCgQ", // 어르신 하체 근력 스쿼트
+    youtubeId: "f3_J3b9iCgQ",
     youtubeUrl: "https://www.youtube.com/watch?v=f3_J3b9iCgQ",
     svg: getSvgIllustration("sit_to_stand")
   },
@@ -140,7 +141,7 @@ const EXERCISE_LIST = [
       "천천히 제자리로 내린 후, 반대쪽 다리도 똑같이 진행합니다.",
       "좌우 번갈아 가며 30초 동안 리듬감 있게 반복합니다."
     ],
-    youtubeId: "q3a_F66v8gQ", // 중둔근 강화 보행 안정
+    youtubeId: "q3a_F66v8gQ",
     youtubeUrl: "https://www.youtube.com/watch?v=q3a_F66v8gQ",
     svg: getSvgIllustration("side_leg_raise")
   },
@@ -159,7 +160,7 @@ const EXERCISE_LIST = [
       "다시 발끝을 바닥에 대고 뒤꿈치를 최대한 높이 들어 올립니다.",
       "마치 페달을 밟듯 부드럽게 30초간 반복합니다."
     ],
-    youtubeId: "l8t6-H5yU-E", // 발목 펌프 운동
+    youtubeId: "l8t6-H5yU-E",
     youtubeUrl: "https://www.youtube.com/watch?v=l8t6-H5yU-E",
     svg: getSvgIllustration("ankle")
   },
@@ -180,7 +181,7 @@ const EXERCISE_LIST = [
       "시선은 앞쪽 벽 한 점을 바라보며 10초간 버팁니다.",
       "발을 바꾸어 왼쪽 발로도 10초간 균형을 유지합니다."
     ],
-    youtubeId: "QvFjXyT1kM8", // 어르신 균형감각 한 발 서기
+    youtubeId: "QvFjXyT1kM8",
     youtubeUrl: "https://www.youtube.com/watch?v=QvFjXyT1kM8",
     svg: getSvgIllustration("one_leg_stand")
   },
@@ -199,7 +200,7 @@ const EXERCISE_LIST = [
       "천천히 앞으로 한 발씩 발뒤꿈치를 대며 일자로 나아갑니다.",
       "좌우로 흔들리지 않도록 아랫배에 힘을 살짝 줍니다."
     ],
-    youtubeId: "kYJ9g1V-L4g", // 탠덤 보행 훈련
+    youtubeId: "kYJ9g1V-L4g",
     youtubeUrl: "https://www.youtube.com/watch?v=kYJ9g1V-L4g",
     svg: getSvgIllustration("tandem_stance")
   },
@@ -218,7 +219,7 @@ const EXERCISE_LIST = [
       "발을 가볍게 딛고, 왼쪽 무릎을 들어 올리며 걷습니다.",
       "호흡을 규칙적으로 들이마시고 내쉬며 30초간 지속합니다."
     ],
-    youtubeId: "f3_J3b9iCgQ", // 시니어 제자리 걷기
+    youtubeId: "f3_J3b9iCgQ",
     youtubeUrl: "https://www.youtube.com/watch?v=f3_J3b9iCgQ",
     svg: getSvgIllustration("high_knee_walk")
   },
@@ -237,7 +238,7 @@ const EXERCISE_LIST = [
       "다시 천천히 중앙을 지나 왼쪽 다리로 체중을 실어줍니다.",
       "좌우로 부드럽게 파도타듯 30초간 반복합니다."
     ],
-    youtubeId: "QvFjXyT1kM8", // 무게중심 이동
+    youtubeId: "QvFjXyT1kM8",
     youtubeUrl: "https://www.youtube.com/watch?v=QvFjXyT1kM8",
     svg: getSvgIllustration("weight_shift")
   }
@@ -281,7 +282,6 @@ function getSvgIllustration(type) {
           <line x1="100" y1="44" x2="100" y2="95" stroke="#0284c7" stroke-width="8" stroke-linecap="round"/>
           <line x1="100" y1="95" x2="85" y2="130" stroke="#0369a1" stroke-width="8" stroke-linecap="round"/>
           <line x1="100" y1="95" x2="115" y2="130" stroke="#0369a1" stroke-width="8" stroke-linecap="round"/>
-          <!-- 어깨 회전 궤적 -->
           <path d="M70 50 A 15 15 0 1 1 85 65" stroke="#d97706" stroke-width="3" fill="none" stroke-linecap="round"/>
           <polygon points="85,65 85,57 78,63" fill="#d97706"/>
           <text x="50" y="15" fill="#475569" font-size="12" font-weight="bold">어깨 으쓱 돌리기</text>
@@ -414,7 +414,7 @@ const ASSESSMENT_QUESTIONS = [
 // 4. 애플리케이션 상태 (State)
 // =============================================================================
 const state = {
-  activeCategory: "all", // "all", "upper", "lower", "full"
+  activeCategory: "all",
   ttsEnabled: true,
   currentRoutineQueue: [],
   currentQueueIndex: 0,
@@ -477,7 +477,7 @@ class SoundEngine {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "ko-KR";
-    utterance.rate = 0.92; // 어르신을 위해 천천히 안정적인 속도
+    utterance.rate = 0.92;
     utterance.pitch = 1.0;
 
     const voices = window.speechSynthesis.getVoices();
@@ -499,16 +499,18 @@ const sound = new SoundEngine();
 // =============================================================================
 // 6. 초기화 및 이벤트 연결
 // =============================================================================
-document.addEventListener("DOMContentLoaded", () => {
-  loadRecords();
+document.addEventListener("DOMContentLoaded", async () => {
   initAccessibility();
   initNavigation();
   initCategoryFilters();
   initYoutubeModal();
   initAssessment();
+  initDbModal();
+
+  // 데이터 로드 (로컬 + Supabase 동기화)
+  await loadRecords();
   renderCalendar();
   updateStatsDisplay();
-
   renderExerciseGrid();
 });
 
@@ -572,7 +574,143 @@ function initNavigation() {
 }
 
 // =============================================================================
-// 7. 카테고리 필터 (상지 / 하지 / 전신)
+// 7. Supabase DB 설정 모달 및 상태 관리
+// =============================================================================
+function initDbModal() {
+  const btnOpenDbModal = document.getElementById("btnOpenDbModal");
+  const btnCloseDbModal = document.getElementById("btnCloseDbModal");
+  const dbModal = document.getElementById("dbModal");
+  const dbConfigForm = document.getElementById("dbConfigForm");
+  const sbUrlInput = document.getElementById("sbUrlInput");
+  const sbKeyInput = document.getElementById("sbKeyInput");
+  const btnTestDb = document.getElementById("btnTestDb");
+  const btnClearDb = document.getElementById("btnClearDb");
+  const dbTestMsg = document.getElementById("dbTestMessage");
+
+  updateDbStatusUI();
+
+  btnOpenDbModal.addEventListener("click", () => {
+    sbUrlInput.value = window.dbService.url || "";
+    sbKeyInput.value = window.dbService.anonKey || "";
+    dbTestMsg.className = "db-test-msg hidden";
+    dbModal.classList.remove("hidden");
+  });
+
+  btnCloseDbModal.addEventListener("click", () => {
+    dbModal.classList.add("hidden");
+  });
+
+  dbModal.addEventListener("click", (e) => {
+    if (e.target === dbModal) dbModal.classList.add("hidden");
+  });
+
+  // 연결 테스트 버튼
+  btnTestDb.addEventListener("click", async () => {
+    const url = sbUrlInput.value.trim();
+    const key = sbKeyInput.value.trim();
+    if (!url || !key) {
+      showTestMessage("Project URL과 anon Key를 모두 입력해 주세요.", false);
+      return;
+    }
+
+    btnTestDb.disabled = true;
+    btnTestDb.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 테스트 중...`;
+    
+    const res = await window.dbService.testConnection(url, key);
+    showTestMessage(res.message, res.success);
+
+    btnTestDb.disabled = false;
+    btnTestDb.innerHTML = `<i class="fa-solid fa-bolt"></i> 연결 테스트`;
+  });
+
+  // 설정 저장 및 동기화
+  dbConfigForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const url = sbUrlInput.value.trim();
+    const key = sbKeyInput.value.trim();
+
+    const ok = window.dbService.saveCredentials(url, key);
+    updateDbStatusUI();
+
+    if (ok) {
+      showTestMessage("수파베이스 설정이 저장되었습니다. 데이터를 동기화합니다.", true);
+      await syncLocalRecordsToSupabase();
+      await loadRecords();
+      renderCalendar();
+      updateStatsDisplay();
+      setTimeout(() => dbModal.classList.add("hidden"), 1000);
+      sound.speak("수파베이스 데이터베이스가 성공적으로 연결되었습니다.");
+    } else {
+      showTestMessage("저장 중 오류가 발생했습니다. 키 값을 확인해 주세요.", false);
+    }
+  });
+
+  // 로컬 모드로 초기화
+  btnClearDb.addEventListener("click", () => {
+    if (confirm("Supabase 연결을 해제하고 브라우저 로컬 저장소 모드로 전환하시겠습니까?")) {
+      window.dbService.clearCredentials();
+      updateDbStatusUI();
+      dbModal.classList.add("hidden");
+      loadRecords();
+      renderCalendar();
+      updateStatsDisplay();
+    }
+  });
+
+  function showTestMessage(msg, isSuccess) {
+    dbTestMsg.textContent = msg;
+    dbTestMsg.className = `db-test-msg ${isSuccess ? "success" : "error"}`;
+  }
+}
+
+function updateDbStatusUI() {
+  const btn = document.getElementById("btnOpenDbModal");
+  const badge = document.getElementById("dbStatusBadge");
+  const saveLocationText = document.getElementById("dbSaveLocationText");
+
+  if (window.dbService && window.dbService.isReady()) {
+    btn.classList.add("connected");
+    badge.textContent = "🟢 Supabase 연결됨";
+    if (saveLocationText) saveLocationText.textContent = "클라우드 DB 동기화됨";
+  } else {
+    btn.classList.remove("connected");
+    badge.textContent = "🟡 로컬 모드 (DB 설정)";
+    if (saveLocationText) saveLocationText.textContent = "내 기기(로컬) 저장됨";
+  }
+}
+
+// 로컬 기록을 Supabase로 업로드하여 동기화
+async function syncLocalRecordsToSupabase() {
+  if (!window.dbService || !window.dbService.isReady()) return;
+
+  try {
+    const raw = localStorage.getItem("fall_prev_records");
+    if (!raw) return;
+    const localList = JSON.parse(raw);
+
+    // 원격에서 이미 있는 기록 확인
+    const remoteList = await window.dbService.fetchExerciseRecords();
+    const remoteDates = new Set((remoteList || []).map(r => r.date));
+
+    // 없는 날짜의 기록을 Supabase에 추가
+    for (const item of localList) {
+      if (!remoteDates.has(item.date)) {
+        await window.dbService.saveExerciseRecord({
+          date: item.date,
+          exerciseCount: item.exerciseCount || 1,
+          seconds: item.seconds || 30,
+          category: "all",
+          exerciseTitle: "이전 운동 기록"
+        });
+      }
+    }
+  } catch (e) {
+    console.warn("기록 동기화 중 오류:", e);
+  }
+}
+
+// =============================================================================
+// 8. 카테고리 필터 (상지 / 하지 / 전신)
 // =============================================================================
 function initCategoryFilters() {
   const categoryBtns = document.querySelectorAll(".btn-category");
@@ -585,7 +723,6 @@ function initCategoryFilters() {
     });
   });
 
-  // 전체 연속 재생 버튼
   document.getElementById("btnStartFilteredRoutine").addEventListener("click", () => {
     const list = getFilteredExercises();
     if (list.length > 0) {
@@ -604,7 +741,6 @@ function renderExerciseGrid() {
   const grid = document.getElementById("exerciseGrid");
   grid.innerHTML = "";
 
-  // 헤더 설명 문구 업데이트
   const titleElem = document.getElementById("currentCategoryTitle");
   const descElem = document.getElementById("currentCategoryDesc");
 
@@ -655,12 +791,10 @@ function renderExerciseGrid() {
       </div>
     `;
 
-    // 유튜브 버튼 클릭
     card.querySelector(".btn-card-youtube").addEventListener("click", () => {
       openYoutubeModal(ex);
     });
 
-    // 타이머 단독 시작
     card.querySelector(".btn-card-start").addEventListener("click", () => {
       startExerciseRoutine([ex], 0);
     });
@@ -670,7 +804,7 @@ function renderExerciseGrid() {
 }
 
 // =============================================================================
-// 8. 유튜브 모달 연동 (YouTube Embed & 외부 링크)
+// 9. 유튜브 모달 연동 (YouTube Embed & 외부 링크)
 // =============================================================================
 const youtubeModal = document.getElementById("youtubeModal");
 const youtubeIframe = document.getElementById("youtubeIframe");
@@ -689,7 +823,6 @@ function initYoutubeModal() {
     }
   });
 
-  // 배경 클릭 시 닫기
   youtubeModal.addEventListener("click", (e) => {
     if (e.target === youtubeModal) closeYoutubeModal();
   });
@@ -701,11 +834,7 @@ function openYoutubeModal(exercise) {
   document.getElementById("youtubeModalDesc").textContent = 
     `${exercise.categoryName} · ${exercise.target} - 영상을 보며 올바른 동작을 익혀보세요.`;
 
-  // 유튜브 임베드 URL 설정
-  // 낙상예방 관련 검색/영상 파라미터 적용
   youtubeIframe.src = `https://www.youtube-nocookie.com/embed/${exercise.youtubeId}?autoplay=1&rel=0`;
-  
-  // 외부 링크 버튼 설정
   btnOpenExternalYoutube.href = exercise.youtubeUrl;
 
   youtubeModal.classList.remove("hidden");
@@ -713,12 +842,12 @@ function openYoutubeModal(exercise) {
 }
 
 function closeYoutubeModal() {
-  youtubeIframe.src = ""; // 영상 및 사운드 정지
+  youtubeIframe.src = "";
   youtubeModal.classList.add("hidden");
 }
 
 // =============================================================================
-// 9. 인터랙티브 운동 플레이어 모달 (타이머 & 음성 코칭)
+// 10. 인터랙티브 운동 플레이어 모달 (타이머 & 음성 코칭)
 // =============================================================================
 const exerciseModal = document.getElementById("exerciseModal");
 const completeModal = document.getElementById("completeModal");
@@ -847,7 +976,7 @@ function handleExerciseFinished() {
   }
 }
 
-function finishAllRoutine() {
+async function finishAllRoutine() {
   closeExerciseModal();
   sound.playCelebrationSound();
   sound.speak("축하합니다! 오늘의 낙상 예방 운동을 모두 성공하셨습니다.");
@@ -855,7 +984,8 @@ function finishAllRoutine() {
   const totalExercises = state.currentRoutineQueue.length;
   const totalSeconds = state.currentRoutineQueue.reduce((acc, cur) => acc + cur.duration, 0);
 
-  saveCompletedSession(totalExercises, totalSeconds);
+  // 로컬 & Supabase 저장
+  await saveCompletedSession(totalExercises, totalSeconds);
 
   document.getElementById("completedCountText").textContent = `${totalExercises}개 동작 완료`;
   const mins = Math.floor(totalSeconds / 60);
@@ -863,6 +993,7 @@ function finishAllRoutine() {
   document.getElementById("completedTimeText").textContent = 
     mins > 0 ? `${mins}분 ${secs}초` : `${secs}초`;
 
+  updateDbStatusUI();
   completeModal.classList.remove("hidden");
 }
 
@@ -912,7 +1043,7 @@ function closeExerciseModal() {
 }
 
 // =============================================================================
-// 10. 낙상 위험도 자가진단 로직
+// 11. 낙상 위험도 자가진단 로직 (+ Supabase 저장)
 // =============================================================================
 function initAssessment() {
   const form = document.getElementById("assessmentForm");
@@ -946,15 +1077,16 @@ function initAssessment() {
   document.getElementById("btnCheckRisk").addEventListener("click", evaluateAssessment);
 }
 
-function evaluateAssessment(e) {
+async function evaluateAssessment(e) {
   e.preventDefault();
   let totalScore = 0;
+  const answersMap = {};
 
   ASSESSMENT_QUESTIONS.forEach(q => {
     const selected = document.querySelector(`input[name="${q.id}"]:checked`);
-    if (selected && selected.value === "yes") {
-      totalScore += q.scoreYes;
-    }
+    const isYes = selected && selected.value === "yes";
+    answersMap[q.id] = isYes;
+    if (isYes) totalScore += q.scoreYes;
   });
 
   const resultContainer = document.getElementById("assessmentResult");
@@ -968,7 +1100,10 @@ function evaluateAssessment(e) {
   resultContainer.classList.remove("hidden");
   resultCard.classList.remove("low", "medium", "high");
 
+  let riskLevel = "low";
+
   if (totalScore <= 1) {
+    riskLevel = "low";
     resultCard.classList.add("low");
     resultIcon.innerHTML = `<i class="fa-solid fa-shield-check"></i>`;
     resultBadge.textContent = "안전 단계 (저위험)";
@@ -983,6 +1118,7 @@ function evaluateAssessment(e) {
     `;
     sound.speak("자가진단 결과, 위험도가 낮고 건강한 상태입니다. 꾸준한 운동으로 건강을 유지하세요.");
   } else if (totalScore <= 3) {
+    riskLevel = "medium";
     resultCard.classList.add("medium");
     resultIcon.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
     resultBadge.textContent = "주의 단계 (중등도 위험)";
@@ -997,6 +1133,7 @@ function evaluateAssessment(e) {
     `;
     sound.speak("자가진단 결과, 주의 단계입니다. 벽과 의자를 잡고 안전한 동작부터 매일 10분씩 실천해 보세요.");
   } else {
+    riskLevel = "high";
     resultCard.classList.add("high");
     resultIcon.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i>`;
     resultBadge.textContent = "경고 단계 (고위험)";
@@ -1013,23 +1150,60 @@ function evaluateAssessment(e) {
     sound.speak("자가진단 결과, 낙상 고위험 단계입니다. 반드시 의자에 앉아서 안전하게 운동하시고 보호자의 도움을 받으세요.");
   }
 
+  // Supabase에 자가진단 기록 비동기 저장
+  if (window.dbService && window.dbService.isReady()) {
+    await window.dbService.saveAssessmentRecord({
+      totalScore,
+      riskLevel,
+      answers: answersMap
+    });
+  }
+
   resultContainer.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 // =============================================================================
-// 11. 로컬스토리지 기록 및 출석 달력
+// 12. 데이터 동기화 및 출석 달력 (Supabase + LocalStorage)
 // =============================================================================
-function loadRecords() {
+async function loadRecords() {
+  // 1. 기본 로컬스토리지 로드
   try {
     const raw = localStorage.getItem("fall_prev_records");
     state.records = raw ? JSON.parse(raw) : [];
   } catch (e) {
     state.records = [];
   }
+
+  // 2. Supabase가 연결되어 있으면 원격 데이터 조회 후 병합
+  if (window.dbService && window.dbService.isReady()) {
+    const remoteData = await window.dbService.fetchExerciseRecords();
+    if (remoteData && remoteData.length > 0) {
+      // 날짜별로 그룹화하여 records 상태 갱신
+      const map = {};
+      remoteData.forEach(item => {
+        const d = item.date;
+        if (!map[d]) {
+          map[d] = {
+            date: d,
+            exerciseCount: 0,
+            seconds: 0,
+            timestamp: item.created_at
+          };
+        }
+        map[d].exerciseCount += item.exercise_count || 1;
+        map[d].seconds += item.seconds || 30;
+      });
+
+      state.records = Object.values(map);
+      localStorage.setItem("fall_prev_records", JSON.stringify(state.records));
+    }
+  }
 }
 
-function saveCompletedSession(count, seconds) {
+async function saveCompletedSession(count, seconds) {
   const todayStr = getLocalDateString(new Date());
+
+  // 1. 로컬 상태 업데이트
   const existing = state.records.find(r => r.date === todayStr);
   if (existing) {
     existing.exerciseCount += count;
@@ -1043,8 +1217,19 @@ function saveCompletedSession(count, seconds) {
       timestamp: new Date().toISOString()
     });
   }
-
   localStorage.setItem("fall_prev_records", JSON.stringify(state.records));
+
+  // 2. Supabase 연결 시 원격 DB에 저장
+  if (window.dbService && window.dbService.isReady()) {
+    await window.dbService.saveExerciseRecord({
+      date: todayStr,
+      exerciseCount: count,
+      seconds: seconds,
+      category: state.activeCategory,
+      exerciseTitle: state.currentExercise ? state.currentExercise.title : "전체 루틴"
+    });
+  }
+
   updateStatsDisplay();
   renderCalendar();
 }
@@ -1078,7 +1263,7 @@ function updateStatsDisplay() {
   document.getElementById("streakDays").innerHTML = `${streak}<small>일째</small>`;
 
   const thisMonthPrefix = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
-  const thisMonthRecords = state.records.filter(r => r.date.startsWith(thisMonthPrefix));
+  const thisMonthRecords = state.records.filter(r => r.date && r.date.startsWith(thisMonthPrefix));
   const monthlyCount = thisMonthRecords.reduce((acc, cur) => acc + (cur.exerciseCount > 0 ? 1 : 0), 0);
   document.getElementById("monthlyTotal").innerHTML = `${monthlyCount}<small>회</small>`;
 
@@ -1092,11 +1277,11 @@ function updateStatsDisplay() {
   if (state.records.length === 0) {
     recentLogsList.innerHTML = `<li class="empty-log">아직 완료한 운동 기록이 없습니다. 오늘 첫 운동을 시작해보세요!</li>`;
   } else {
-    const sorted = [...state.records].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+    const sorted = [...state.records].sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 5);
     sorted.forEach(item => {
       const li = document.createElement("li");
-      const mins = Math.floor(item.seconds / 60);
-      const secs = item.seconds % 60;
+      const mins = Math.floor((item.seconds || 0) / 60);
+      const secs = (item.seconds || 0) % 60;
       const timeStr = mins > 0 ? `${mins}분 ${secs}초` : `${secs}초`;
 
       li.innerHTML = `
