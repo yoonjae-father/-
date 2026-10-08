@@ -11,8 +11,8 @@
 // 웹 화면의 [DB 설정] 모달창을 통해 브라우저에서 직접 등록하실 수도 있습니다.
 // -----------------------------------------------------------------------------
 const DEFAULT_SUPABASE_CONFIG = {
-  url: "",      // 예: "https://xyzcompany.supabase.co"
-  anonKey: ""   // 예: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  url: "https://dgnekwjodrxuyhllmflk.supabase.co",
+  anonKey: "sb_publishable_IT3hWT88aJ3WzssZ6DCwQQ_Y5ZKE1_b"
 };
 
 class SupabaseService {
