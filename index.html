@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>든든한 걸음 - 어르신 낙상예방 운동 가이드</title>
+  <!-- 한글 웹폰트 Pretendard -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.variable.min.css" />
+  <!-- FontAwesome 아이콘 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-size-md">
+  <!-- 상단 네비게이션 헤더 -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <span class="logo-icon"><i class="fa-solid fa-person-walking"></i></span>
+        <div>
+          <h1 class="logo-title">든든한 걸음</h1>
+          <p class="logo-sub">상지 · 하지 · 전신 맞춤형 낙상 예방 운동</p>
+        </div>
+      </div>
+
+      <!-- 접근성 컨트롤 (글자 크기 & 음성 가이드) -->
+      <div class="accessibility-controls">
+        <div class="font-resizer" title="글자 크기 조절">
+          <span class="ctrl-label">글자크기:</span>
+          <button id="btnFontSm" class="btn-ctrl" aria-label="기본 글자">보통</button>
+          <button id="btnFontMd" class="btn-ctrl active" aria-label="큰 글자">크게</button>
+          <button id="btnFontLg" class="btn-ctrl" aria-label="아주 큰 글자">아주크게</button>
+        </div>
+        <div class="tts-toggle" title="음성 안내 켜기/끄기">
+          <button id="btnTtsToggle" class="btn-ctrl btn-tts active">
+            <i class="fa-solid fa-volume-high"></i> <span id="ttsStatusText">음성 켜짐</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 메인 탭 -->
+    <nav class="app-nav">
+      <button class="nav-tab active" data-tab="tab-routine">
+        <i class="fa-solid fa-dumbbell"></i>
+        <span>운동 프로그램 (영상 포함)</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-assessment">
+        <i class="fa-solid fa-clipboard-check"></i>
+        <span>낙상 위험 자가진단</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-history">
+        <i class="fa-solid fa-calendar-check"></i>
+        <span>운동 기록 & 출석</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-safety">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>생활 안전 수칙</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- 메인 컨텐츠 영역 -->
+  <main class="app-main">
+    <!-- 1. 운동 프로그램 탭 (상지 / 하지 / 전신 카테고리) -->
+    <section id="tab-routine" class="tab-content active">
+      <!-- 상단 배너 -->
+      <div class="section-intro">
+        <div class="intro-banner">
+          <div class="banner-text">
+            <h2>넘어짐 없는 튼튼한 하루! 부위별 맞춤 운동</h2>
+            <p><strong>상지(상체) 지지력</strong>, <strong>하지(하체) 근력</strong>, <strong>전신 균형감각</strong>을 골고루 길러보세요.<br>
+            각 운동의 <strong>[유튜브 영상 보기]</strong> 버튼을 누르면 전문 시연 영상을 바로 보실 수 있습니다.</p>
+          </div>
+          <div class="banner-badge">
+            <i class="fa-brands fa-youtube"></i>
+            <span>영상 코칭 제공</span>
+          </div>
+        </div>
+
+        <!-- 안전 주의사항 -->
+        <div class="safety-alert">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <div>
+            <strong>시작 전 안전 수칙!</strong>
+            <p>주변에 걸려 넘어질 물건을 치우고, 필요 시 <strong>튼튼한 의자나 벽</strong>을 잡고 무리 없이 진행하세요.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카테고리 선택 탭 (전체 / 상지 / 하지 / 전신) -->
+      <div class="category-filter-bar">
+        <span class="filter-title"><i class="fa-solid fa-layer-group"></i> 운동 부위 선택:</span>
+        <div class="category-buttons">
+          <button class="btn-category active" data-category="all">
+            <i class="fa-solid fa-border-all"></i> 전체 보기 (12개)
+          </button>
+          <button class="btn-category" data-category="upper">
+            <i class="fa-solid fa-hand-fist"></i> 상지(상체) 부분 (4개)
+          </button>
+          <button class="btn-category" data-category="lower">
+            <i class="fa-solid fa-socks"></i> 하지(하체) 부분 (4개)
+          </button>
+          <button class="btn-category" data-category="full">
+            <i class="fa-solid fa-person"></i> 전신 & 균형 부분 (4개)
+          </button>
+        </div>
+      </div>
+
+      <!-- 카테고리 헤더 요약 안내 -->
+      <div class="routine-action-bar">
+        <div>
+          <h3 id="currentCategoryTitle">전체 운동 목록 (총 12개 동작)</h3>
+          <p id="currentCategoryDesc">상체 지지력, 하체 근력, 전신 평형감각을 고루 단련하는 낙상 예방 종합 코스입니다.</p>
+        </div>
+        <button id="btnStartFilteredRoutine" class="btn-primary-large">
+          <i class="fa-solid fa-play"></i> 현재 선택된 운동 연속 재생
+        </button>
+      </div>
+
+      <!-- 운동 카드 그리드 -->
+      <div id="exerciseGrid" class="exercise-grid">
+        <!-- JS로 동적 생성 -->
+      </div>
+    </section>
+
+    <!-- 2. 낙상 위험 자가진단 탭 -->
+    <section id="tab-assessment" class="tab-content">
+      <div class="assessment-container">
+        <div class="assessment-header">
+          <h2><i class="fa-solid fa-clipboard-question"></i> 나의 낙상 위험도 자가진단</h2>
+          <p>보건복지부 및 CDC STEADI 기준의 5가지 문항으로 낙상 위험도를 점검해보세요.</p>
+        </div>
+
+        <form id="assessmentForm" class="assessment-list">
+          <!-- JS로 질문 생성 -->
+        </form>
+
+        <div class="assessment-actions">
+          <button id="btnCheckRisk" class="btn-primary-large">
+            <i class="fa-solid fa-magnifying-glass-chart"></i> 결과 확인하기
+          </button>
+        </div>
+
+        <!-- 결과 창 -->
+        <div id="assessmentResult" class="assessment-result hidden">
+          <div class="result-card" id="resultCard">
+            <div class="result-icon-box" id="resultIcon">
+              <i class="fa-solid fa-shield-check"></i>
+            </div>
+            <div class="result-details">
+              <span class="result-badge" id="resultBadge">주의 단계</span>
+              <h3 id="resultTitle">낙상 위험도 보통</h3>
+              <p id="resultDesc">안내 설명이 들어갑니다.</p>
+              <div class="result-recommendation" id="resultRec">
+                <!-- 추천 내용 -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 운동 기록 & 출석 탭 -->
+    <section id="tab-history" class="tab-content">
+      <div class="history-container">
+        <div class="stats-overview">
+          <div class="stat-card">
+            <div class="stat-icon icon-fire"><i class="fa-solid fa-fire"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">연속 실천일</span>
+              <span class="stat-value" id="streakDays">0<small>일째</small></span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-check"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">이번 달 운동 횟수</span>
+              <span class="stat-value" id="monthlyTotal">0<small>회</small></span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-clock"><i class="fa-solid fa-stopwatch"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">누적 운동 시간</span>
+              <span class="stat-value" id="totalMinutes">0<small>분</small></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calendar-section">
+          <div class="calendar-header">
+            <h3><i class="fa-regular fa-calendar-days"></i> <span id="calYearMonth">2026년 10월</span> 운동 달력</h3>
+            <div class="cal-nav">
+              <button id="btnPrevMonth" class="btn-cal-arrow"><i class="fa-solid fa-chevron-left"></i></button>
+              <button id="btnToday" class="btn-cal-today">오늘</button>
+              <button id="btnNextMonth" class="btn-cal-arrow"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="calendar-grid-header">
+            <span class="sun">일</span>
+            <span>월</span>
+            <span>화</span>
+            <span>수</span>
+            <span>목</span>
+            <span>금</span>
+            <span class="sat">토</span>
+          </div>
+          <div id="calendarDays" class="calendar-days">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+
+        <div class="recent-logs-section">
+          <h3><i class="fa-solid fa-list-check"></i> 최근 완료 내역</h3>
+          <ul id="recentLogsList" class="recent-logs-list">
+            <li class="empty-log">아직 완료한 운동 기록이 없습니다. 오늘 첫 운동을 시작해보세요!</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 생활 안전 수칙 탭 -->
+    <section id="tab-safety" class="tab-content">
+      <div class="safety-guide-container">
+        <div class="safety-header">
+          <h2><i class="fa-solid fa-house-chimney-medical"></i> 실내외 낙상 예방 5대 안전 수칙</h2>
+          <p>낙상의 60% 이상은 익숙한 집 안에서 발생합니다. 환경을 조금만 바꾸면 안전해집니다.</p>
+        </div>
+
+        <div class="safety-tips-grid">
+          <div class="safety-card">
+            <div class="card-num">01</div>
+            <div class="card-body">
+              <h3><i class="fa-solid fa-lightbulb"></i> 야간 조명 켜두기</h3>
+              <p>밤에 화장실을 갈 때 어두운 상태로 걷지 마세요. 발치등이나 센서등을 침실과 복도, 화장실에 설치하세요.</p>
+            </div>
+          </div>
+          <div class="safety-card">
+            <div class="card-num">02</div>
+            <div class="card-body">
+              <h3><i class="fa-solid fa-shower"></i> 욕실 미끄럼 방지 매트 & 안전 손잡이</h3>
+              <p>물기가 있는 타일 바닥은 매우 미끄럽습니다. 미끄럼 방지 스티커/매트를 부착하고 변기와 샤워기 옆에 손잡이를 설치하세요.</p>
+            </div>
+          </div>
+          <div class="safety-card">
+            <div class="card-num">03</div>
+            <div class="card-body">
+              <h3><i class="fa-solid fa-socks"></i> 미끄럼 방지 양말 & 실내화 착용</h3>
+              <p>맨발이나 미끄러운 일반 양말 대신, 바닥에 고무 패드가 있는 미끄럼 방지 양말이나 뒤축이 감싸진 실내화를 신으세요.</p>
+            </div>
+          </div>
+          <div class="safety-card">
+            <div class="card-num">04</div>
+            <div class="card-body">
+              <h3><i class="fa-solid fa-broom"></i> 바닥 장애물 정리 (전선, 문턱, 발판매트)</h3>
+              <p>발에 걸릴 수 있는 전선, 얇은 카펫, 문턱 등은 테이프로 고정하거나 치워두세요. 이동 동선을 항상 깔끔하게 유지합니다.</p>
+            </div>
+          </div>
+          <div class="safety-card">
+            <div class="card-num">05</div>
+            <div class="card-body">
+              <h3><i class="fa-solid fa-bed"></i> 일어날 때 30초 여유 두기</h3>
+              <p>누워 있거나 앉아 있다가 갑자기 일어나면 기립성 저혈압으로 어지러울 수 있습니다. 일어난 뒤 30초간 가만히 심호흡 후 걸으세요.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 유튜브 영상 모달 (팝업 플레이어) -->
+  <div id="youtubeModal" class="modal-backdrop hidden">
+    <div class="modal-dialog youtube-dialog">
+      <button id="btnCloseYoutubeModal" class="btn-close-modal" aria-label="영상 닫기">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-content youtube-content">
+        <div class="youtube-header">
+          <span class="yt-badge"><i class="fa-brands fa-youtube"></i> 유튜브 운동 영상</span>
+          <h2 id="youtubeModalTitle">운동 영상 제목</h2>
+          <p id="youtubeModalDesc">영상을 보면서 올바른 자세를 따라 해보세요.</p>
+        </div>
+
+        <div class="video-container">
+          <iframe 
+            id="youtubeIframe"
+            src="" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <div class="youtube-actions">
+          <a id="btnOpenExternalYoutube" href="#" target="_blank" rel="noopener noreferrer" class="btn-yt-external">
+            <i class="fa-brands fa-youtube"></i> 유튜브에서 크게 보기
+          </a>
+          <button id="btnStartThisFromVideo" class="btn-primary-large">
+            <i class="fa-solid fa-stopwatch"></i> 이 운동 타이머로 따라하기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 운동 플레이어 모달 (타이머 & 음성 코칭 화면) -->
+  <div id="exerciseModal" class="modal-backdrop hidden">
+    <div class="modal-dialog">
+      <button id="btnCloseModal" class="btn-close-modal" aria-label="닫기">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-content">
+        <div class="player-top">
+          <span class="routine-progress-badge" id="playerRoutineStep">운동 1 / 4</span>
+          <h2 id="playerExerciseTitle">발목 까딱까딱 운동</h2>
+          <p id="playerExerciseTag" class="player-tag">하지 운동 · 혈액순환 & 발목 유연성</p>
+        </div>
+
+        <div class="player-visual-card">
+          <div class="visual-illustration" id="playerVisual">
+            <!-- SVG 애니메이션 삽입 -->
+          </div>
+          <div class="safety-pill">
+            <i class="fa-solid fa-circle-info"></i>
+            <span id="playerSafetyTip">의자에 등을 곧게 펴고 앉으세요.</span>
+          </div>
+        </div>
+
+        <!-- 타이머 및 카운트다운 게이지 -->
+        <div class="timer-display-area">
+          <div class="timer-circle-container">
+            <svg class="timer-svg" viewBox="0 0 160 160">
+              <circle class="timer-bg" cx="80" cy="80" r="70" />
+              <circle id="timerProgressCircle" class="timer-bar" cx="80" cy="80" r="70" />
+            </svg>
+            <div class="timer-text-wrap">
+              <span id="timerSeconds" class="timer-num">30</span>
+              <span class="timer-unit">초</span>
+            </div>
+          </div>
+          <div class="timer-message" id="timerMessage">
+            천천히 호흡하며 동작을 시작해 보세요
+          </div>
+        </div>
+
+        <!-- 단계별 설명 텍스트 -->
+        <div class="player-instructions">
+          <h4><i class="fa-solid fa-shoe-prints"></i> 동작 방법</h4>
+          <ol id="playerStepsList">
+            <!-- JS 동적 생성 -->
+          </ol>
+        </div>
+
+        <!-- 컨트롤 버튼 -->
+        <div class="player-controls">
+          <button id="btnPrevExercise" class="btn-secondary" title="이전 운동">
+            <i class="fa-solid fa-backward-step"></i> 이전
+          </button>
+          <button id="btnToggleTimer" class="btn-play-pause">
+            <i id="playPauseIcon" class="fa-solid fa-pause"></i>
+            <span id="playPauseText">일시정지</span>
+          </button>
+          <button id="btnNextExercise" class="btn-secondary" title="다음 운동">
+            다음 <i class="fa-solid fa-forward-step"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 운동 완료 축하 모달 -->
+  <div id="completeModal" class="modal-backdrop hidden">
+    <div class="modal-dialog celebration-dialog">
+      <div class="celebration-content">
+        <div class="celebration-icon">🎉</div>
+        <h2>참 잘하셨습니다!</h2>
+        <p class="celebration-sub">오늘의 낙상 예방 운동을 성공적으로 마쳤습니다.</p>
+        <div class="completion-summary">
+          <div class="summary-item">
+            <span>완료한 운동</span>
+            <strong id="completedCountText">4개</strong>
+          </div>
+          <div class="summary-item">
+            <span>총 소요 시간</span>
+            <strong id="completedTimeText">2분 30초</strong>
+          </div>
+          <div class="summary-item">
+            <span>기록 현황</span>
+            <strong class="text-green">달력에 자동 기록됨</strong>
+          </div>
+        </div>
+        <p class="celebration-encourage">"꾸준한 실천이 튼튼한 관절과 균형 감각을 만듭니다."</p>
+        <button id="btnFinishCelebration" class="btn-primary-large">
+          <i class="fa-solid fa-check"></i> 완료하고 확인하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="app-footer">
+    <p>본 웹앱의 운동 및 안내는 보건복지부, 질병관리청 및 국립재활원의 낙상 예방 가이드를 기반으로 제작되었습니다.</p>
+    <p>심한 관절염이나 어지럼증이 있으신 경우 전문의 상담 후 운동하시기 바랍니다.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
